@@ -1,0 +1,14 @@
+﻿@model Perpustakaan.Models.DBukuModel
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+Yakin Delete
+@using (Html.BeginForm())
+{
+    @Html.DisplayFor(model => Model.Judul)
+    <input type="submit" value="delete" />
+}

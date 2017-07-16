@@ -1,0 +1,97 @@
+﻿@model PagedList.IPagedList<Perpustakaan.Models.DBukuModel>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h1>@Session["User"]</h1>
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+@using (Html.BeginForm("Index", "DBuku", FormMethod.Get))
+{
+    <p>
+        Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Search" />
+    </p>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.Label("Judul")
+        </th>
+        <th>
+            @Html.Label("Penerbit")
+        </th>
+        <th>
+            @Html.Label("Diterbitkan")
+        </th>
+        <th>
+            @Html.Label("Pengarang")
+        </th>
+        <th>
+            @Html.Label("Genre Buku")
+        </th>
+        <th>
+            @Html.Label("Jumlah")
+        </th>
+        <th>
+            @Html.Label("Edit")
+        </th>
+        <th>
+            @Html.Label("Edit")
+        </th>
+        <th>
+            @Html.Label("Delete")
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Judul)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Penerbit)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LTerbit)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Pengarang)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GenreBuku)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Jumlah)
+        </td>
+
+        <td>
+            <a href="/DBuku/AddToCart/@item.Id">
+                <img src="/images/@item.Images" width="100" height="100" />
+            </a>
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id })
+        </td>
+        <td>
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+        </td>
+</tr>
+}
+
+</table>
+<br />
+
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))

@@ -1,0 +1,87 @@
+﻿@using Perpustakaan;
+@using Perpustakaan.Models;
+@model Tuple<List<PinjamModel>, List<SPinjamModel>>
+
+@{
+    ViewBag.Title = "Confirm";
+}
+
+<h2>Confirm</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<div class="row">
+    <div class="col-md-6">
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.Label("User")
+                </th>
+                <th>
+                    @Html.Label("PBuku")
+                </th>
+                <th>
+                    @Html.Label("WPinjam")
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (PinjamModel pinjam in Model.Item1)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => pinjam.User)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => pinjam.PBuku)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => pinjam.WPinjam)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Confirm", "Acc", new { id = pinjam.IdBuku })
+                    </td>
+                </tr>
+            }
+
+        </table>
+        </div>
+    <div class="col-md-6">
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.Label("User")
+                </th>
+                <th>
+                    @Html.Label("PBuku")
+                </th>
+                <th>
+                    @Html.Label("WKembali")
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (SPinjamModel spinjam in Model.Item2)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => spinjam.User)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => spinjam.PBuku)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => spinjam.WKembali)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = spinjam.Id }) |
+                        @Html.ActionLink("Details", "Details", new { id = spinjam.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = spinjam.Id })
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+    </div>
