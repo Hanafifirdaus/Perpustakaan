@@ -9,7 +9,7 @@
 <h2 style="text-align:center;">Daftar Buku</h2>
 <br />
 
-@using (Html.BeginForm("Index", "Home", FormMethod.Get))
+@using (Html.BeginForm("DaftarBuku", "Home", FormMethod.Get))
 {
     <p>
         Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)

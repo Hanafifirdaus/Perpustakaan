@@ -200,8 +200,26 @@ namespace Perpustakaan.Controllers
                              Foto = Biodata.Foto
                          };
 
+            //List<TBacaModel> TB = new List<TBacaModel>();
+
             var tupleModel = new Tuple<List<TBacaModel>, List<BiodataModel>>(querys.ToList(), query.ToList());
             return View(tupleModel);
+            //tupleModel
+        }
+
+        
+        public ActionResult Create(string searchString)
+        {
+            TBaca buku = new TBaca()
+            {
+                Buku = searchString,
+                ReWaktu = DateTime.Now,
+                IdUser = (int)Session["KTP"]
+            };
+
+            context.TBacas.InsertOnSubmit(buku);
+            context.SubmitChanges();
+            return RedirectToAction("Profil/"+(int)Session["KTP"]);
         }
 
         public ActionResult Index()
@@ -234,6 +252,8 @@ namespace Perpustakaan.Controllers
                 return View("Index");
         }
 
+        
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
@@ -245,6 +265,11 @@ namespace Perpustakaan.Controllers
         {
             ViewBag.Message = "Your contact page.";
 
+            return View();
+        }
+
+        public ActionResult hase()
+        {
             return View();
         }
     }

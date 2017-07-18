@@ -1,14 +1,32 @@
 ﻿@using Perpustakaan;
 @using Perpustakaan.Models;
+
 @model Tuple<List<TBacaModel>, List<BiodataModel>>
 
 @{
     ViewBag.Title = "Profil";
+    TBacaModel TBaca = new TBacaModel();
 }
 <h2 style="text-align:center;">About</h2>
 
 <div class="row">
     <div class="col-md-6">
+
+@using (Html.BeginForm("Create", "Home", FormMethod.Get))
+{
+    <p>
+        Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Search" />
+    </p>
+}
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+
         <h2 style="text-align:center;">Profil</h2>
         <br />
         @foreach (BiodataModel Bio in Model.Item2)
