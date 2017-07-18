@@ -33,9 +33,6 @@ namespace Perpustakaan.Models
     partial void InsertKelompok(Kelompok instance);
     partial void UpdateKelompok(Kelompok instance);
     partial void DeleteKelompok(Kelompok instance);
-    partial void InsertLogin(Login instance);
-    partial void UpdateLogin(Login instance);
-    partial void DeleteLogin(Login instance);
     partial void InsertDBuku(DBuku instance);
     partial void UpdateDBuku(DBuku instance);
     partial void DeleteDBuku(DBuku instance);
@@ -45,15 +42,24 @@ namespace Perpustakaan.Models
     partial void InsertDibaca(Dibaca instance);
     partial void UpdateDibaca(Dibaca instance);
     partial void DeleteDibaca(Dibaca instance);
-    partial void InsertBiodata(Biodata instance);
-    partial void UpdateBiodata(Biodata instance);
-    partial void DeleteBiodata(Biodata instance);
-    partial void InsertSPinjam(SPinjam instance);
-    partial void UpdateSPinjam(SPinjam instance);
-    partial void DeleteSPinjam(SPinjam instance);
     partial void InsertPinjam(Pinjam instance);
     partial void UpdatePinjam(Pinjam instance);
     partial void DeletePinjam(Pinjam instance);
+    partial void InsertSPinjam(SPinjam instance);
+    partial void UpdateSPinjam(SPinjam instance);
+    partial void DeleteSPinjam(SPinjam instance);
+    partial void InsertTBaca(TBaca instance);
+    partial void UpdateTBaca(TBaca instance);
+    partial void DeleteTBaca(TBaca instance);
+    partial void InsertLogin(Login instance);
+    partial void UpdateLogin(Login instance);
+    partial void DeleteLogin(Login instance);
+    partial void InsertUserLogin(UserLogin instance);
+    partial void UpdateUserLogin(UserLogin instance);
+    partial void DeleteUserLogin(UserLogin instance);
+    partial void InsertBiodata(Biodata instance);
+    partial void UpdateBiodata(Biodata instance);
+    partial void DeleteBiodata(Biodata instance);
     #endregion
 		
 		public OperationDataContext() : 
@@ -94,14 +100,6 @@ namespace Perpustakaan.Models
 			}
 		}
 		
-		public System.Data.Linq.Table<Login> Logins
-		{
-			get
-			{
-				return this.GetTable<Login>();
-			}
-		}
-		
 		public System.Data.Linq.Table<DBuku> DBukus
 		{
 			get
@@ -126,11 +124,11 @@ namespace Perpustakaan.Models
 			}
 		}
 		
-		public System.Data.Linq.Table<Biodata> Biodatas
+		public System.Data.Linq.Table<Pinjam> Pinjams
 		{
 			get
 			{
-				return this.GetTable<Biodata>();
+				return this.GetTable<Pinjam>();
 			}
 		}
 		
@@ -142,11 +140,35 @@ namespace Perpustakaan.Models
 			}
 		}
 		
-		public System.Data.Linq.Table<Pinjam> Pinjams
+		public System.Data.Linq.Table<TBaca> TBacas
 		{
 			get
 			{
-				return this.GetTable<Pinjam>();
+				return this.GetTable<TBaca>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Login> Logins
+		{
+			get
+			{
+				return this.GetTable<Login>();
+			}
+		}
+		
+		public System.Data.Linq.Table<UserLogin> UserLogins
+		{
+			get
+			{
+				return this.GetTable<UserLogin>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Biodata> Biodatas
+		{
+			get
+			{
+				return this.GetTable<Biodata>();
 			}
 		}
 	}
@@ -313,116 +335,6 @@ namespace Perpustakaan.Models
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Login")]
-	public partial class Login : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _Id;
-		
-		private string _Username;
-		
-		private string _Password;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(int value);
-    partial void OnIdChanged();
-    partial void OnUsernameChanging(string value);
-    partial void OnUsernameChanged();
-    partial void OnPasswordChanging(string value);
-    partial void OnPasswordChanged();
-    #endregion
-		
-		public Login()
-		{
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int Id
-		{
-			get
-			{
-				return this._Id;
-			}
-			set
-			{
-				if ((this._Id != value))
-				{
-					this.OnIdChanging(value);
-					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Username", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
-		public string Username
-		{
-			get
-			{
-				return this._Username;
-			}
-			set
-			{
-				if ((this._Username != value))
-				{
-					this.OnUsernameChanging(value);
-					this.SendPropertyChanging();
-					this._Username = value;
-					this.SendPropertyChanged("Username");
-					this.OnUsernameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Password", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
-		public string Password
-		{
-			get
-			{
-				return this._Password;
-			}
-			set
-			{
-				if ((this._Password != value))
-				{
-					this.OnPasswordChanging(value);
-					this.SendPropertyChanging();
-					this._Password = value;
-					this.SendPropertyChanged("Password");
-					this.OnPasswordChanged();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DBuku")]
 	public partial class DBuku : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -445,9 +357,9 @@ namespace Perpustakaan.Models
 		
 		private string _Images;
 		
-		private EntitySet<SPinjam> _SPinjams;
-		
 		private EntitySet<Pinjam> _Pinjams;
+		
+		private EntitySet<SPinjam> _SPinjams;
 		
 		private EntityRef<Kelompok> _Kelompok;
 		
@@ -475,8 +387,8 @@ namespace Perpustakaan.Models
 		
 		public DBuku()
 		{
-			this._SPinjams = new EntitySet<SPinjam>(new Action<SPinjam>(this.attach_SPinjams), new Action<SPinjam>(this.detach_SPinjams));
 			this._Pinjams = new EntitySet<Pinjam>(new Action<Pinjam>(this.attach_Pinjams), new Action<Pinjam>(this.detach_Pinjams));
+			this._SPinjams = new EntitySet<SPinjam>(new Action<SPinjam>(this.attach_SPinjams), new Action<SPinjam>(this.detach_SPinjams));
 			this._Kelompok = default(EntityRef<Kelompok>);
 			OnCreated();
 		}
@@ -645,19 +557,6 @@ namespace Perpustakaan.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DBuku_SPinjam", Storage="_SPinjams", ThisKey="Id", OtherKey="IdBuku")]
-		public EntitySet<SPinjam> SPinjams
-		{
-			get
-			{
-				return this._SPinjams;
-			}
-			set
-			{
-				this._SPinjams.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DBuku_Pinjam", Storage="_Pinjams", ThisKey="Id", OtherKey="IdBuku")]
 		public EntitySet<Pinjam> Pinjams
 		{
@@ -668,6 +567,19 @@ namespace Perpustakaan.Models
 			set
 			{
 				this._Pinjams.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DBuku_SPinjam", Storage="_SPinjams", ThisKey="Id", OtherKey="IdBuku")]
+		public EntitySet<SPinjam> SPinjams
+		{
+			get
+			{
+				return this._SPinjams;
+			}
+			set
+			{
+				this._SPinjams.Assign(value);
 			}
 		}
 		
@@ -725,18 +637,6 @@ namespace Perpustakaan.Models
 			}
 		}
 		
-		private void attach_SPinjams(SPinjam entity)
-		{
-			this.SendPropertyChanging();
-			entity.DBuku = this;
-		}
-		
-		private void detach_SPinjams(SPinjam entity)
-		{
-			this.SendPropertyChanging();
-			entity.DBuku = null;
-		}
-		
 		private void attach_Pinjams(Pinjam entity)
 		{
 			this.SendPropertyChanging();
@@ -744,6 +644,18 @@ namespace Perpustakaan.Models
 		}
 		
 		private void detach_Pinjams(Pinjam entity)
+		{
+			this.SendPropertyChanging();
+			entity.DBuku = null;
+		}
+		
+		private void attach_SPinjams(SPinjam entity)
+		{
+			this.SendPropertyChanging();
+			entity.DBuku = this;
+		}
+		
+		private void detach_SPinjams(SPinjam entity)
 		{
 			this.SendPropertyChanging();
 			entity.DBuku = null;
@@ -1035,6 +947,909 @@ namespace Perpustakaan.Models
 		}
 	}
 	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Pinjam")]
+	public partial class Pinjam : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private int _IdUser;
+		
+		private string _PBuku;
+		
+		private System.Nullable<bool> _Confirm;
+		
+		private System.Nullable<System.DateTime> _WPinjam;
+		
+		private int _IdBuku;
+		
+		private EntityRef<DBuku> _DBuku;
+		
+		private EntityRef<Biodata> _Biodata;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnIdUserChanging(int value);
+    partial void OnIdUserChanged();
+    partial void OnPBukuChanging(string value);
+    partial void OnPBukuChanged();
+    partial void OnConfirmChanging(System.Nullable<bool> value);
+    partial void OnConfirmChanged();
+    partial void OnWPinjamChanging(System.Nullable<System.DateTime> value);
+    partial void OnWPinjamChanged();
+    partial void OnIdBukuChanging(int value);
+    partial void OnIdBukuChanged();
+    #endregion
+		
+		public Pinjam()
+		{
+			this._DBuku = default(EntityRef<DBuku>);
+			this._Biodata = default(EntityRef<Biodata>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdUser", DbType="Int NOT NULL")]
+		public int IdUser
+		{
+			get
+			{
+				return this._IdUser;
+			}
+			set
+			{
+				if ((this._IdUser != value))
+				{
+					if (this._Biodata.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnIdUserChanging(value);
+					this.SendPropertyChanging();
+					this._IdUser = value;
+					this.SendPropertyChanged("IdUser");
+					this.OnIdUserChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PBuku", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string PBuku
+		{
+			get
+			{
+				return this._PBuku;
+			}
+			set
+			{
+				if ((this._PBuku != value))
+				{
+					this.OnPBukuChanging(value);
+					this.SendPropertyChanging();
+					this._PBuku = value;
+					this.SendPropertyChanged("PBuku");
+					this.OnPBukuChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Confirm]", Storage="_Confirm", DbType="Bit")]
+		public System.Nullable<bool> Confirm
+		{
+			get
+			{
+				return this._Confirm;
+			}
+			set
+			{
+				if ((this._Confirm != value))
+				{
+					this.OnConfirmChanging(value);
+					this.SendPropertyChanging();
+					this._Confirm = value;
+					this.SendPropertyChanged("Confirm");
+					this.OnConfirmChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WPinjam", DbType="DateTime")]
+		public System.Nullable<System.DateTime> WPinjam
+		{
+			get
+			{
+				return this._WPinjam;
+			}
+			set
+			{
+				if ((this._WPinjam != value))
+				{
+					this.OnWPinjamChanging(value);
+					this.SendPropertyChanging();
+					this._WPinjam = value;
+					this.SendPropertyChanged("WPinjam");
+					this.OnWPinjamChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdBuku", DbType="Int NOT NULL")]
+		public int IdBuku
+		{
+			get
+			{
+				return this._IdBuku;
+			}
+			set
+			{
+				if ((this._IdBuku != value))
+				{
+					if (this._DBuku.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnIdBukuChanging(value);
+					this.SendPropertyChanging();
+					this._IdBuku = value;
+					this.SendPropertyChanged("IdBuku");
+					this.OnIdBukuChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DBuku_Pinjam", Storage="_DBuku", ThisKey="IdBuku", OtherKey="Id", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
+		public DBuku DBuku
+		{
+			get
+			{
+				return this._DBuku.Entity;
+			}
+			set
+			{
+				DBuku previousValue = this._DBuku.Entity;
+				if (((previousValue != value) 
+							|| (this._DBuku.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._DBuku.Entity = null;
+						previousValue.Pinjams.Remove(this);
+					}
+					this._DBuku.Entity = value;
+					if ((value != null))
+					{
+						value.Pinjams.Add(this);
+						this._IdBuku = value.Id;
+					}
+					else
+					{
+						this._IdBuku = default(int);
+					}
+					this.SendPropertyChanged("DBuku");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Biodata_Pinjam", Storage="_Biodata", ThisKey="IdUser", OtherKey="Id", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
+		public Biodata Biodata
+		{
+			get
+			{
+				return this._Biodata.Entity;
+			}
+			set
+			{
+				Biodata previousValue = this._Biodata.Entity;
+				if (((previousValue != value) 
+							|| (this._Biodata.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Biodata.Entity = null;
+						previousValue.Pinjams.Remove(this);
+					}
+					this._Biodata.Entity = value;
+					if ((value != null))
+					{
+						value.Pinjams.Add(this);
+						this._IdUser = value.Id;
+					}
+					else
+					{
+						this._IdUser = default(int);
+					}
+					this.SendPropertyChanged("Biodata");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.SPinjam")]
+	public partial class SPinjam : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private int _IdUser;
+		
+		private string _PBuku;
+		
+		private System.Nullable<System.DateTime> _WKembali;
+		
+		private System.Nullable<int> _IdBuku;
+		
+		private string _Status;
+		
+		private EntityRef<DBuku> _DBuku;
+		
+		private EntityRef<Biodata> _Biodata;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnIdUserChanging(int value);
+    partial void OnIdUserChanged();
+    partial void OnPBukuChanging(string value);
+    partial void OnPBukuChanged();
+    partial void OnWKembaliChanging(System.Nullable<System.DateTime> value);
+    partial void OnWKembaliChanged();
+    partial void OnIdBukuChanging(System.Nullable<int> value);
+    partial void OnIdBukuChanged();
+    partial void OnStatusChanging(string value);
+    partial void OnStatusChanged();
+    #endregion
+		
+		public SPinjam()
+		{
+			this._DBuku = default(EntityRef<DBuku>);
+			this._Biodata = default(EntityRef<Biodata>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdUser", DbType="Int NOT NULL")]
+		public int IdUser
+		{
+			get
+			{
+				return this._IdUser;
+			}
+			set
+			{
+				if ((this._IdUser != value))
+				{
+					if (this._Biodata.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnIdUserChanging(value);
+					this.SendPropertyChanging();
+					this._IdUser = value;
+					this.SendPropertyChanged("IdUser");
+					this.OnIdUserChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PBuku", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string PBuku
+		{
+			get
+			{
+				return this._PBuku;
+			}
+			set
+			{
+				if ((this._PBuku != value))
+				{
+					this.OnPBukuChanging(value);
+					this.SendPropertyChanging();
+					this._PBuku = value;
+					this.SendPropertyChanged("PBuku");
+					this.OnPBukuChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WKembali", DbType="DateTime")]
+		public System.Nullable<System.DateTime> WKembali
+		{
+			get
+			{
+				return this._WKembali;
+			}
+			set
+			{
+				if ((this._WKembali != value))
+				{
+					this.OnWKembaliChanging(value);
+					this.SendPropertyChanging();
+					this._WKembali = value;
+					this.SendPropertyChanged("WKembali");
+					this.OnWKembaliChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdBuku", DbType="Int")]
+		public System.Nullable<int> IdBuku
+		{
+			get
+			{
+				return this._IdBuku;
+			}
+			set
+			{
+				if ((this._IdBuku != value))
+				{
+					if (this._DBuku.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnIdBukuChanging(value);
+					this.SendPropertyChanging();
+					this._IdBuku = value;
+					this.SendPropertyChanged("IdBuku");
+					this.OnIdBukuChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="NVarChar(50)")]
+		public string Status
+		{
+			get
+			{
+				return this._Status;
+			}
+			set
+			{
+				if ((this._Status != value))
+				{
+					this.OnStatusChanging(value);
+					this.SendPropertyChanging();
+					this._Status = value;
+					this.SendPropertyChanged("Status");
+					this.OnStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DBuku_SPinjam", Storage="_DBuku", ThisKey="IdBuku", OtherKey="Id", IsForeignKey=true, DeleteRule="CASCADE")]
+		public DBuku DBuku
+		{
+			get
+			{
+				return this._DBuku.Entity;
+			}
+			set
+			{
+				DBuku previousValue = this._DBuku.Entity;
+				if (((previousValue != value) 
+							|| (this._DBuku.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._DBuku.Entity = null;
+						previousValue.SPinjams.Remove(this);
+					}
+					this._DBuku.Entity = value;
+					if ((value != null))
+					{
+						value.SPinjams.Add(this);
+						this._IdBuku = value.Id;
+					}
+					else
+					{
+						this._IdBuku = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("DBuku");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Biodata_SPinjam", Storage="_Biodata", ThisKey="IdUser", OtherKey="Id", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
+		public Biodata Biodata
+		{
+			get
+			{
+				return this._Biodata.Entity;
+			}
+			set
+			{
+				Biodata previousValue = this._Biodata.Entity;
+				if (((previousValue != value) 
+							|| (this._Biodata.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Biodata.Entity = null;
+						previousValue.SPinjams.Remove(this);
+					}
+					this._Biodata.Entity = value;
+					if ((value != null))
+					{
+						value.SPinjams.Add(this);
+						this._IdUser = value.Id;
+					}
+					else
+					{
+						this._IdUser = default(int);
+					}
+					this.SendPropertyChanged("Biodata");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.TBaca")]
+	public partial class TBaca : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Buku;
+		
+		private System.DateTime _ReWaktu;
+		
+		private int _IdUser;
+		
+		private EntityRef<Biodata> _Biodata;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnBukuChanging(string value);
+    partial void OnBukuChanged();
+    partial void OnReWaktuChanging(System.DateTime value);
+    partial void OnReWaktuChanged();
+    partial void OnIdUserChanging(int value);
+    partial void OnIdUserChanged();
+    #endregion
+		
+		public TBaca()
+		{
+			this._Biodata = default(EntityRef<Biodata>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Buku", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string Buku
+		{
+			get
+			{
+				return this._Buku;
+			}
+			set
+			{
+				if ((this._Buku != value))
+				{
+					this.OnBukuChanging(value);
+					this.SendPropertyChanging();
+					this._Buku = value;
+					this.SendPropertyChanged("Buku");
+					this.OnBukuChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReWaktu", DbType="DateTime NOT NULL")]
+		public System.DateTime ReWaktu
+		{
+			get
+			{
+				return this._ReWaktu;
+			}
+			set
+			{
+				if ((this._ReWaktu != value))
+				{
+					this.OnReWaktuChanging(value);
+					this.SendPropertyChanging();
+					this._ReWaktu = value;
+					this.SendPropertyChanged("ReWaktu");
+					this.OnReWaktuChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdUser", DbType="Int NOT NULL")]
+		public int IdUser
+		{
+			get
+			{
+				return this._IdUser;
+			}
+			set
+			{
+				if ((this._IdUser != value))
+				{
+					if (this._Biodata.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnIdUserChanging(value);
+					this.SendPropertyChanging();
+					this._IdUser = value;
+					this.SendPropertyChanged("IdUser");
+					this.OnIdUserChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Biodata_TBaca", Storage="_Biodata", ThisKey="IdUser", OtherKey="Id", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
+		public Biodata Biodata
+		{
+			get
+			{
+				return this._Biodata.Entity;
+			}
+			set
+			{
+				Biodata previousValue = this._Biodata.Entity;
+				if (((previousValue != value) 
+							|| (this._Biodata.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Biodata.Entity = null;
+						previousValue.TBacas.Remove(this);
+					}
+					this._Biodata.Entity = value;
+					if ((value != null))
+					{
+						value.TBacas.Add(this);
+						this._IdUser = value.Id;
+					}
+					else
+					{
+						this._IdUser = default(int);
+					}
+					this.SendPropertyChanged("Biodata");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Login")]
+	public partial class Login : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Stat;
+		
+		private EntitySet<Biodata> _Biodatas;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnStatChanging(string value);
+    partial void OnStatChanged();
+    #endregion
+		
+		public Login()
+		{
+			this._Biodatas = new EntitySet<Biodata>(new Action<Biodata>(this.attach_Biodatas), new Action<Biodata>(this.detach_Biodatas));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Stat", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string Stat
+		{
+			get
+			{
+				return this._Stat;
+			}
+			set
+			{
+				if ((this._Stat != value))
+				{
+					this.OnStatChanging(value);
+					this.SendPropertyChanging();
+					this._Stat = value;
+					this.SendPropertyChanged("Stat");
+					this.OnStatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Login_Biodata", Storage="_Biodatas", ThisKey="Id", OtherKey="IdStat")]
+		public EntitySet<Biodata> Biodatas
+		{
+			get
+			{
+				return this._Biodatas;
+			}
+			set
+			{
+				this._Biodatas.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Biodatas(Biodata entity)
+		{
+			this.SendPropertyChanging();
+			entity.Login = this;
+		}
+		
+		private void detach_Biodatas(Biodata entity)
+		{
+			this.SendPropertyChanging();
+			entity.Login = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.UserLogin")]
+	public partial class UserLogin : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Username;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnUsernameChanging(string value);
+    partial void OnUsernameChanged();
+    #endregion
+		
+		public UserLogin()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Username", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string Username
+		{
+			get
+			{
+				return this._Username;
+			}
+			set
+			{
+				if ((this._Username != value))
+				{
+					this.OnUsernameChanging(value);
+					this.SendPropertyChanging();
+					this._Username = value;
+					this.SendPropertyChanged("Username");
+					this.OnUsernameChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Biodata")]
 	public partial class Biodata : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -1055,13 +1870,23 @@ namespace Perpustakaan.Models
 		
 		private string _Film;
 		
-		private string _WDaftar;
+		private System.Nullable<System.DateTime> _WDaftar;
+		
+		private int _IdStat;
+		
+		private string _KTP;
+		
+		private string _Foto;
 		
 		private EntitySet<Dibaca> _Dibacas;
 		
+		private EntitySet<Pinjam> _Pinjams;
+		
 		private EntitySet<SPinjam> _SPinjams;
 		
-		private EntitySet<Pinjam> _Pinjams;
+		private EntitySet<TBaca> _TBacas;
+		
+		private EntityRef<Login> _Login;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -1081,15 +1906,23 @@ namespace Perpustakaan.Models
     partial void OnMakananChanged();
     partial void OnFilmChanging(string value);
     partial void OnFilmChanged();
-    partial void OnWDaftarChanging(string value);
+    partial void OnWDaftarChanging(System.Nullable<System.DateTime> value);
     partial void OnWDaftarChanged();
+    partial void OnIdStatChanging(int value);
+    partial void OnIdStatChanged();
+    partial void OnKTPChanging(string value);
+    partial void OnKTPChanged();
+    partial void OnFotoChanging(string value);
+    partial void OnFotoChanged();
     #endregion
 		
 		public Biodata()
 		{
 			this._Dibacas = new EntitySet<Dibaca>(new Action<Dibaca>(this.attach_Dibacas), new Action<Dibaca>(this.detach_Dibacas));
-			this._SPinjams = new EntitySet<SPinjam>(new Action<SPinjam>(this.attach_SPinjams), new Action<SPinjam>(this.detach_SPinjams));
 			this._Pinjams = new EntitySet<Pinjam>(new Action<Pinjam>(this.attach_Pinjams), new Action<Pinjam>(this.detach_Pinjams));
+			this._SPinjams = new EntitySet<SPinjam>(new Action<SPinjam>(this.attach_SPinjams), new Action<SPinjam>(this.detach_SPinjams));
+			this._TBacas = new EntitySet<TBaca>(new Action<TBaca>(this.attach_TBacas), new Action<TBaca>(this.detach_TBacas));
+			this._Login = default(EntityRef<Login>);
 			OnCreated();
 		}
 		
@@ -1233,8 +2066,8 @@ namespace Perpustakaan.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WDaftar", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
-		public string WDaftar
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WDaftar", DbType="DateTime")]
+		public System.Nullable<System.DateTime> WDaftar
 		{
 			get
 			{
@@ -1253,6 +2086,70 @@ namespace Perpustakaan.Models
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdStat", DbType="Int NOT NULL")]
+		public int IdStat
+		{
+			get
+			{
+				return this._IdStat;
+			}
+			set
+			{
+				if ((this._IdStat != value))
+				{
+					if (this._Login.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnIdStatChanging(value);
+					this.SendPropertyChanging();
+					this._IdStat = value;
+					this.SendPropertyChanged("IdStat");
+					this.OnIdStatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_KTP", DbType="NChar(30)")]
+		public string KTP
+		{
+			get
+			{
+				return this._KTP;
+			}
+			set
+			{
+				if ((this._KTP != value))
+				{
+					this.OnKTPChanging(value);
+					this.SendPropertyChanging();
+					this._KTP = value;
+					this.SendPropertyChanged("KTP");
+					this.OnKTPChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Foto", DbType="NVarChar(MAX)")]
+		public string Foto
+		{
+			get
+			{
+				return this._Foto;
+			}
+			set
+			{
+				if ((this._Foto != value))
+				{
+					this.OnFotoChanging(value);
+					this.SendPropertyChanging();
+					this._Foto = value;
+					this.SendPropertyChanged("Foto");
+					this.OnFotoChanged();
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Biodata_Dibaca", Storage="_Dibacas", ThisKey="Id", OtherKey="IdUser")]
 		public EntitySet<Dibaca> Dibacas
 		{
@@ -1263,6 +2160,19 @@ namespace Perpustakaan.Models
 			set
 			{
 				this._Dibacas.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Biodata_Pinjam", Storage="_Pinjams", ThisKey="Id", OtherKey="IdUser")]
+		public EntitySet<Pinjam> Pinjams
+		{
+			get
+			{
+				return this._Pinjams;
+			}
+			set
+			{
+				this._Pinjams.Assign(value);
 			}
 		}
 		
@@ -1279,16 +2189,50 @@ namespace Perpustakaan.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Biodata_Pinjam", Storage="_Pinjams", ThisKey="Id", OtherKey="IdUser")]
-		public EntitySet<Pinjam> Pinjams
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Biodata_TBaca", Storage="_TBacas", ThisKey="Id", OtherKey="IdUser")]
+		public EntitySet<TBaca> TBacas
 		{
 			get
 			{
-				return this._Pinjams;
+				return this._TBacas;
 			}
 			set
 			{
-				this._Pinjams.Assign(value);
+				this._TBacas.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Login_Biodata", Storage="_Login", ThisKey="IdStat", OtherKey="Id", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
+		public Login Login
+		{
+			get
+			{
+				return this._Login.Entity;
+			}
+			set
+			{
+				Login previousValue = this._Login.Entity;
+				if (((previousValue != value) 
+							|| (this._Login.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Login.Entity = null;
+						previousValue.Biodatas.Remove(this);
+					}
+					this._Login.Entity = value;
+					if ((value != null))
+					{
+						value.Biodatas.Add(this);
+						this._IdStat = value.Id;
+					}
+					else
+					{
+						this._IdStat = default(int);
+					}
+					this.SendPropertyChanged("Login");
+				}
 			}
 		}
 		
@@ -1324,6 +2268,18 @@ namespace Perpustakaan.Models
 			entity.Biodata = null;
 		}
 		
+		private void attach_Pinjams(Pinjam entity)
+		{
+			this.SendPropertyChanging();
+			entity.Biodata = this;
+		}
+		
+		private void detach_Pinjams(Pinjam entity)
+		{
+			this.SendPropertyChanging();
+			entity.Biodata = null;
+		}
+		
 		private void attach_SPinjams(SPinjam entity)
 		{
 			this.SendPropertyChanging();
@@ -1336,520 +2292,16 @@ namespace Perpustakaan.Models
 			entity.Biodata = null;
 		}
 		
-		private void attach_Pinjams(Pinjam entity)
+		private void attach_TBacas(TBaca entity)
 		{
 			this.SendPropertyChanging();
 			entity.Biodata = this;
 		}
 		
-		private void detach_Pinjams(Pinjam entity)
+		private void detach_TBacas(TBaca entity)
 		{
 			this.SendPropertyChanging();
 			entity.Biodata = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.SPinjam")]
-	public partial class SPinjam : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _Id;
-		
-		private int _IdUser;
-		
-		private string _PBuku;
-		
-		private System.Nullable<System.DateTime> _WKembali;
-		
-		private System.Nullable<int> _IdBuku;
-		
-		private EntityRef<Biodata> _Biodata;
-		
-		private EntityRef<DBuku> _DBuku;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(int value);
-    partial void OnIdChanged();
-    partial void OnIdUserChanging(int value);
-    partial void OnIdUserChanged();
-    partial void OnPBukuChanging(string value);
-    partial void OnPBukuChanged();
-    partial void OnWKembaliChanging(System.Nullable<System.DateTime> value);
-    partial void OnWKembaliChanged();
-    partial void OnIdBukuChanging(System.Nullable<int> value);
-    partial void OnIdBukuChanged();
-    #endregion
-		
-		public SPinjam()
-		{
-			this._Biodata = default(EntityRef<Biodata>);
-			this._DBuku = default(EntityRef<DBuku>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int Id
-		{
-			get
-			{
-				return this._Id;
-			}
-			set
-			{
-				if ((this._Id != value))
-				{
-					this.OnIdChanging(value);
-					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdUser", DbType="Int NOT NULL")]
-		public int IdUser
-		{
-			get
-			{
-				return this._IdUser;
-			}
-			set
-			{
-				if ((this._IdUser != value))
-				{
-					if (this._Biodata.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnIdUserChanging(value);
-					this.SendPropertyChanging();
-					this._IdUser = value;
-					this.SendPropertyChanged("IdUser");
-					this.OnIdUserChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PBuku", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
-		public string PBuku
-		{
-			get
-			{
-				return this._PBuku;
-			}
-			set
-			{
-				if ((this._PBuku != value))
-				{
-					this.OnPBukuChanging(value);
-					this.SendPropertyChanging();
-					this._PBuku = value;
-					this.SendPropertyChanged("PBuku");
-					this.OnPBukuChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WKembali", DbType="DateTime")]
-		public System.Nullable<System.DateTime> WKembali
-		{
-			get
-			{
-				return this._WKembali;
-			}
-			set
-			{
-				if ((this._WKembali != value))
-				{
-					this.OnWKembaliChanging(value);
-					this.SendPropertyChanging();
-					this._WKembali = value;
-					this.SendPropertyChanged("WKembali");
-					this.OnWKembaliChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdBuku", DbType="Int")]
-		public System.Nullable<int> IdBuku
-		{
-			get
-			{
-				return this._IdBuku;
-			}
-			set
-			{
-				if ((this._IdBuku != value))
-				{
-					if (this._DBuku.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnIdBukuChanging(value);
-					this.SendPropertyChanging();
-					this._IdBuku = value;
-					this.SendPropertyChanged("IdBuku");
-					this.OnIdBukuChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Biodata_SPinjam", Storage="_Biodata", ThisKey="IdUser", OtherKey="Id", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
-		public Biodata Biodata
-		{
-			get
-			{
-				return this._Biodata.Entity;
-			}
-			set
-			{
-				Biodata previousValue = this._Biodata.Entity;
-				if (((previousValue != value) 
-							|| (this._Biodata.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Biodata.Entity = null;
-						previousValue.SPinjams.Remove(this);
-					}
-					this._Biodata.Entity = value;
-					if ((value != null))
-					{
-						value.SPinjams.Add(this);
-						this._IdUser = value.Id;
-					}
-					else
-					{
-						this._IdUser = default(int);
-					}
-					this.SendPropertyChanged("Biodata");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DBuku_SPinjam", Storage="_DBuku", ThisKey="IdBuku", OtherKey="Id", IsForeignKey=true, DeleteRule="CASCADE")]
-		public DBuku DBuku
-		{
-			get
-			{
-				return this._DBuku.Entity;
-			}
-			set
-			{
-				DBuku previousValue = this._DBuku.Entity;
-				if (((previousValue != value) 
-							|| (this._DBuku.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._DBuku.Entity = null;
-						previousValue.SPinjams.Remove(this);
-					}
-					this._DBuku.Entity = value;
-					if ((value != null))
-					{
-						value.SPinjams.Add(this);
-						this._IdBuku = value.Id;
-					}
-					else
-					{
-						this._IdBuku = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("DBuku");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Pinjam")]
-	public partial class Pinjam : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _Id;
-		
-		private int _IdUser;
-		
-		private string _PBuku;
-		
-		private System.Nullable<bool> _Confirm;
-		
-		private System.Nullable<System.DateTime> _WPinjam;
-		
-		private System.Nullable<int> _IdBuku;
-		
-		private EntityRef<Biodata> _Biodata;
-		
-		private EntityRef<DBuku> _DBuku;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(int value);
-    partial void OnIdChanged();
-    partial void OnIdUserChanging(int value);
-    partial void OnIdUserChanged();
-    partial void OnPBukuChanging(string value);
-    partial void OnPBukuChanged();
-    partial void OnConfirmChanging(System.Nullable<bool> value);
-    partial void OnConfirmChanged();
-    partial void OnWPinjamChanging(System.Nullable<System.DateTime> value);
-    partial void OnWPinjamChanged();
-    partial void OnIdBukuChanging(System.Nullable<int> value);
-    partial void OnIdBukuChanged();
-    #endregion
-		
-		public Pinjam()
-		{
-			this._Biodata = default(EntityRef<Biodata>);
-			this._DBuku = default(EntityRef<DBuku>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int Id
-		{
-			get
-			{
-				return this._Id;
-			}
-			set
-			{
-				if ((this._Id != value))
-				{
-					this.OnIdChanging(value);
-					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdUser", DbType="Int NOT NULL")]
-		public int IdUser
-		{
-			get
-			{
-				return this._IdUser;
-			}
-			set
-			{
-				if ((this._IdUser != value))
-				{
-					if (this._Biodata.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnIdUserChanging(value);
-					this.SendPropertyChanging();
-					this._IdUser = value;
-					this.SendPropertyChanged("IdUser");
-					this.OnIdUserChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PBuku", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
-		public string PBuku
-		{
-			get
-			{
-				return this._PBuku;
-			}
-			set
-			{
-				if ((this._PBuku != value))
-				{
-					this.OnPBukuChanging(value);
-					this.SendPropertyChanging();
-					this._PBuku = value;
-					this.SendPropertyChanged("PBuku");
-					this.OnPBukuChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Confirm]", Storage="_Confirm", DbType="Bit")]
-		public System.Nullable<bool> Confirm
-		{
-			get
-			{
-				return this._Confirm;
-			}
-			set
-			{
-				if ((this._Confirm != value))
-				{
-					this.OnConfirmChanging(value);
-					this.SendPropertyChanging();
-					this._Confirm = value;
-					this.SendPropertyChanged("Confirm");
-					this.OnConfirmChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WPinjam", DbType="DateTime")]
-		public System.Nullable<System.DateTime> WPinjam
-		{
-			get
-			{
-				return this._WPinjam;
-			}
-			set
-			{
-				if ((this._WPinjam != value))
-				{
-					this.OnWPinjamChanging(value);
-					this.SendPropertyChanging();
-					this._WPinjam = value;
-					this.SendPropertyChanged("WPinjam");
-					this.OnWPinjamChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdBuku", DbType="Int")]
-		public System.Nullable<int> IdBuku
-		{
-			get
-			{
-				return this._IdBuku;
-			}
-			set
-			{
-				if ((this._IdBuku != value))
-				{
-					if (this._DBuku.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnIdBukuChanging(value);
-					this.SendPropertyChanging();
-					this._IdBuku = value;
-					this.SendPropertyChanged("IdBuku");
-					this.OnIdBukuChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Biodata_Pinjam", Storage="_Biodata", ThisKey="IdUser", OtherKey="Id", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
-		public Biodata Biodata
-		{
-			get
-			{
-				return this._Biodata.Entity;
-			}
-			set
-			{
-				Biodata previousValue = this._Biodata.Entity;
-				if (((previousValue != value) 
-							|| (this._Biodata.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Biodata.Entity = null;
-						previousValue.Pinjams.Remove(this);
-					}
-					this._Biodata.Entity = value;
-					if ((value != null))
-					{
-						value.Pinjams.Add(this);
-						this._IdUser = value.Id;
-					}
-					else
-					{
-						this._IdUser = default(int);
-					}
-					this.SendPropertyChanged("Biodata");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DBuku_Pinjam", Storage="_DBuku", ThisKey="IdBuku", OtherKey="Id", IsForeignKey=true, DeleteRule="CASCADE")]
-		public DBuku DBuku
-		{
-			get
-			{
-				return this._DBuku.Entity;
-			}
-			set
-			{
-				DBuku previousValue = this._DBuku.Entity;
-				if (((previousValue != value) 
-							|| (this._DBuku.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._DBuku.Entity = null;
-						previousValue.Pinjams.Remove(this);
-					}
-					this._DBuku.Entity = value;
-					if ((value != null))
-					{
-						value.Pinjams.Add(this);
-						this._IdBuku = value.Id;
-					}
-					else
-					{
-						this._IdBuku = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("DBuku");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
 		}
 	}
 }

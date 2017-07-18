@@ -154,6 +154,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AutenModel.cs" />
+    <Compile Include="Models\BiodataModel.cs" />
     <Compile Include="Models\ChartModel.cs" />
     <Compile Include="Models\DBukuModel.cs" />
     <Compile Include="Models\KelompokModel.cs" />
@@ -166,6 +167,7 @@
     </Compile>
     <Compile Include="Models\PinjamModel.cs" />
     <Compile Include="Models\SPinjamModel.cs" />
+    <Compile Include="Models\TBacaModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -214,16 +216,20 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\DBuku\Admin.cshtml" />
     <Content Include="Views\DBuku\Index.cshtml" />
     <Content Include="Views\DBuku\Create.cshtml" />
     <Content Include="Views\DBuku\Edit.cshtml" />
     <Content Include="Views\DBuku\Delete.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\DaftarBuku.cshtml" />
     <Content Include="Views\DBuku\Confirm.cshtml" />
+    <Content Include="Views\DBuku\SignIn.cshtml" />
+    <Content Include="Views\Home\SignUp.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Profil.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Profil\" />
     <Folder Include="Views\Lain\" />
   </ItemGroup>
   <ItemGroup>

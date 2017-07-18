@@ -39,6 +39,11 @@ namespace Perpustakaan.Controllers
                 b = open.AutSes;
             }
 
+            if (Session[a] == null)
+            {
+                return RedirectToAction("SignIn");
+            }
+
 
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Judul" : "";
@@ -115,7 +120,7 @@ namespace Perpustakaan.Controllers
 
             if (Session[a] == null)
             {
-                return RedirectToAction("Admin");
+                return RedirectToAction("SignIn");
             }
 
             DBukuModel model = new DBukuModel();
@@ -137,6 +142,28 @@ namespace Perpustakaan.Controllers
         [HttpPost]
         public ActionResult Create(DBukuModel model, HttpPostedFileBase file)
         {
+            List<AutenModel> aut = new List<AutenModel>();
+            var secret = from sec in context.Autens select new AutenModel { Username = sec.Username, AutSes = sec.AutSes, Id = sec.Id };
+            aut = secret.ToList();
+            var sessi = from se in aut where se.Id == aut.Count select new { se.Username, se.AutSes };
+            string a = "";
+            string b = "";
+            foreach (var open in sessi)
+            {
+                a = open.Username;
+                b = open.AutSes;
+            }
+
+            if (Session[a] == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            if (ModelState.IsValid)
+            {
+                return RedirectToAction("Index");
+            }
+
             string imageUrl = "";
             if (file != null)
             {
@@ -163,7 +190,7 @@ namespace Perpustakaan.Controllers
                 context.DBukus.InsertOnSubmit(buku);
                 context.SubmitChanges();
 
-                return RedirectToAction("Index");
+                return RedirectToAction("SignIn");
             }
             catch
             {
@@ -188,7 +215,7 @@ namespace Perpustakaan.Controllers
 
             if (Session[a] == null)
             {
-                return RedirectToAction("Admin");
+                return RedirectToAction("Index");
             }
 
             if(id == null)
@@ -246,38 +273,38 @@ namespace Perpustakaan.Controllers
             }
         }
 
-        public ActionResult Admin()
+        public ActionResult SignIn()
         {
-            LoginModel model = new LoginModel();
+            BiodataModel model = new BiodataModel();
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult Admin(LoginModel login)
+        public ActionResult SignIn(BiodataModel login)
         {
-            var q = from p in context.Logins
+            var q = from p in context.Biodatas
                     where p.Username == login.Username
-                    && p.Password == login.Password
+                    && p.Pass == login.Pass && p.IdStat == 1
                     select p;
-
+            
             if (q.Any())
             {
                 DateTime now = DateTime.Now;
                 Auten auten = new Auten();
                 {
                     auten.Username = login.Username;
-                    auten.AutSes = MD5Hash(login.Username + login.Password + now);
+                    auten.AutSes = MD5Hash(login.Username + login.Pass + now);
                 };
 
                 context.Autens.InsertOnSubmit(auten);
                 context.SubmitChanges();
                 
-                Session[login.Username] = MD5Hash(login.Username + login.Password + now);
+                Session[login.Username] = MD5Hash(login.Username + login.Pass + now);
                 return RedirectToAction("Index");
             }
             else
             {
-                return View("Admin");
+                return View("SignIn");
             }
         }
 
@@ -297,7 +324,7 @@ namespace Perpustakaan.Controllers
 
             if (Session[a] == null)
             {
-                return RedirectToAction("Admin");
+                return RedirectToAction("SignIn");
             }
 
             DBukuModel mode = context.DBukus.Where(model => model.Id == id).Select(model => new DBukuModel()
@@ -336,6 +363,22 @@ namespace Perpustakaan.Controllers
 
         public ActionResult Confirm()
         {
+            List<AutenModel> aut = new List<AutenModel>();
+            var secret = from sec in context.Autens select new AutenModel { Username = sec.Username, AutSes = sec.AutSes, Id = sec.Id };
+            aut = secret.ToList();
+            var sessi = from se in aut where se.Id == aut.Count select new { se.Username, se.AutSes };
+            string a = "";
+            string b = "";
+            foreach (var open in sessi)
+            {
+                a = open.Username;
+                b = open.AutSes;
+            }
+
+            if (Session[a] == null)
+            {
+                return RedirectToAction("Index");
+            }
 
             List<SPinjamModel> spinjams = new List<SPinjamModel>();
             var querys = from Biodata in context.Biodatas
@@ -346,8 +389,9 @@ namespace Perpustakaan.Controllers
                             User = Biodata.Username,
                             IdUser = SPinjam.IdUser,
                             PBuku = SPinjam.PBuku,
-                            WKembali = SPinjam.WKembali ?? DateTime.Now.AddDays(7),
-                            IdBuku = (int)SPinjam.IdBuku
+                            WKembali = (DateTime)SPinjam.WKembali,
+                            IdBuku = (int)SPinjam.IdBuku,
+                            Status = SPinjam.Status
                         };
             spinjams = querys.ToList();
 
@@ -359,9 +403,10 @@ namespace Perpustakaan.Controllers
                         {
                             User = Biodata.Username,
                             PBuku = Pinjam.PBuku,
-                            WPinjam = DateTime.Today,
+                            WPinjam = DateTime.Now,
                             IdUser = Pinjam.IdUser,
-                            IdBuku = (int)Pinjam.IdBuku
+                            IdBuku = (int)Pinjam.IdBuku,
+                            Id = Pinjam.Id
                         };
             pinjams = query.ToList();
 
@@ -369,13 +414,12 @@ namespace Perpustakaan.Controllers
             return View(tupleModel);
         }
 
-        
         public ActionResult Acc(int id)
         {
             List<PinjamModel> SP = new List<PinjamModel>();
             var mode = from Pinjam in context.Pinjams
                        join Biodata in context.Biodatas
-                       on Pinjam.IdBuku equals id
+                       on Pinjam.Id equals id
                        select new PinjamModel()
                        {
                            IdUser = Pinjam.IdUser,
@@ -399,17 +443,105 @@ namespace Perpustakaan.Controllers
                 IdBuku = s.IdBuku;
             }
 
+
             SPinjam spinjam = new SPinjam()
             {
-                Id = Id,
                 IdUser = IdUser,
                 PBuku = PBuku,
                 IdBuku = IdBuku,
-                WKembali = DateTime.Today.AddDays(7)
+                Status = "Dipinjam",
+                WKembali = DateTime.Now.AddDays(7)
             };
+
+            DBuku book = context.DBukus.Where(some => some.Id == IdBuku).Single<DBuku>();
+            book.Jumlah = book.Jumlah - 1;
+
             context.SPinjams.InsertOnSubmit(spinjam);
             context.SubmitChanges();
 
+
+            Pinjam buku = context.Pinjams.Where(some => some.Id == id).Single<Pinjam>();
+
+            context.Pinjams.DeleteOnSubmit(buku);
+            context.SubmitChanges();
+
+            return RedirectToAction("Confirm");
+        }
+
+        public ActionResult Client(int id)
+        {
+            List<SPinjamModel> SP = new List<SPinjamModel>();
+            var mode = from SPinjam in context.SPinjams
+                       where SPinjam.Id == id
+                       select new SPinjamModel()
+                       {
+                           IdUser = SPinjam.IdUser,
+                           Id = SPinjam.Id,
+                           PBuku = SPinjam.PBuku,
+                           WKembali = DateTime.Now,
+                           IdBuku = (int)SPinjam.IdBuku,
+                           Status = SPinjam.Status
+                       };
+
+            SP = mode.ToList();
+
+            int Id = 0, IdUser = 0, IdBuku = 0;
+            string PBuku = "", Stat = "";
+
+            foreach (var s in SP)
+            {
+                Id = s.Id;
+                IdUser = s.IdUser;
+                PBuku = s.PBuku;
+                IdBuku = s.IdBuku;
+                Stat = s.Status;
+            }
+
+            if(Stat == "Dibalikan")
+            {
+                return RedirectToAction("Confirm");
+            }
+
+            TBaca baca = new TBaca()
+            {
+                Buku = PBuku,
+                ReWaktu = DateTime.Now,
+                IdUser = IdUser
+            };
+
+            context.TBacas.InsertOnSubmit(baca);
+
+            SPinjam buku = context.SPinjams.Where(some => some.Id == Id).Single<SPinjam>();
+            buku.Status = "Dibalikan";
+
+            /*int tmbh = 0;
+            var Add = from tambah in context.DBukus where tambah.Id == Id select tambah;
+            foreach (var tmb in Add)
+                tmbh = tmb.Jumlah;*/
+
+            DBuku book = context.DBukus.Where(some => some.Id == IdBuku).Single<DBuku>();
+            book.Jumlah = book.Jumlah + 1;
+            context.SubmitChanges();
+
+            return RedirectToAction("Confirm");
+        }
+
+
+        public ActionResult Remove(int Id)
+        {
+            var saring = from SPinjam in context.SPinjams where SPinjam.Id == Id select new { SPinjam.Status };
+            string hasil = "";
+            foreach (var sa in saring)
+                hasil = sa.Status;
+
+            if(hasil == "Dipinjam")
+            {
+                return RedirectToAction("Confirm");
+            }
+
+            SPinjam Del = context.SPinjams.Where(some => some.Id == Id).Single<SPinjam>();
+            context.SPinjams.DeleteOnSubmit(Del);
+            context.SubmitChanges();
             return RedirectToAction("Confirm");
         }
 

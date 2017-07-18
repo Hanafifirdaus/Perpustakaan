@@ -6,8 +6,7 @@
     ViewBag.Title = "Index";
 }
 
-<h1>@Session["User"]</h1>
-<h2>Index</h2>
+<h2 style="text-align: center;">Daftar Buku</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -42,7 +41,7 @@
             @Html.Label("Jumlah")
         </th>
         <th>
-            @Html.Label("Edit")
+            @Html.Label("Cover")
         </th>
         <th>
             @Html.Label("Edit")
@@ -75,9 +74,7 @@
         </td>
 
         <td>
-            <a href="/DBuku/AddToCart/@item.Id">
-                <img src="/images/@item.Images" width="100" height="100" />
-            </a>
+            <img src="/images/@item.Images" width="100" height="100" />
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id })

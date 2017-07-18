@@ -1,4 +1,28 @@
-﻿<!DOCTYPE html>
+﻿@helper Confirm()
+{
+    if ((string)ViewContext.RouteData.Values["controller"] == "DBuku" && (string)ViewContext.RouteData.Values["action"] == "Index")
+    {
+            <text>visible</text>
+    }
+    else
+    {
+            <text>hidden</text>
+    }
+}
+
+@helper DaftarBuku()
+{
+if ((string)ViewContext.RouteData.Values["controller"] == "Home" && (string)ViewContext.RouteData.Values["action"] == "Profil")
+{
+        <text>visible</text>
+}
+else
+{
+        <text>hidden</text>
+}
+}
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -22,6 +46,12 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li style="visibility: @Confirm()">@Html.ActionLink("Confirm", "Confirm", "Dbuku")</li>
+                    <li style="visibility: @DaftarBuku()">@Html.ActionLink("Pinjam Buku", "DaftarBuku", "Home")</li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                 </ul>
             </div>

@@ -9,13 +9,6 @@
       <Association Name="Kelompok_DBuku" Member="DBukus" ThisKey="Id" OtherKey="IdBuku" Type="DBuku" />
     </Type>
   </Table>
-  <Table Name="dbo.Login" Member="Logins">
-    <Type Name="Login">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Username" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="Password" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-    </Type>
-  </Table>
   <Table Name="dbo.DBuku" Member="DBukus">
     <Type Name="DBuku">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -26,8 +19,8 @@
       <Column Name="Jumlah" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="IdBuku" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="Images" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
-      <Association Name="DBuku_SPinjam" Member="SPinjams" ThisKey="Id" OtherKey="IdBuku" Type="SPinjam" />
       <Association Name="DBuku_Pinjam" Member="Pinjams" ThisKey="Id" OtherKey="IdBuku" Type="Pinjam" />
+      <Association Name="DBuku_SPinjam" Member="SPinjams" ThisKey="Id" OtherKey="IdBuku" Type="SPinjam" />
       <Association Name="Kelompok_DBuku" Member="Kelompok" ThisKey="IdBuku" OtherKey="Id" Type="Kelompok" IsForeignKey="true" DeleteRule="CASCADE" />
     </Type>
   </Table>
@@ -47,19 +40,16 @@
       <Association Name="Biodata_Dibaca" Member="Biodata" ThisKey="IdUser" OtherKey="Id" Type="Biodata" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
-  <Table Name="dbo.Biodata" Member="Biodatas">
-    <Type Name="Biodata">
+  <Table Name="dbo.Pinjam" Member="Pinjams">
+    <Type Name="Pinjam">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Username" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="Alamat" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="Email" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="Pass" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="Makanan" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="Film" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="WDaftar" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-      <Association Name="Biodata_Dibaca" Member="Dibacas" ThisKey="Id" OtherKey="IdUser" Type="Dibaca" />
-      <Association Name="Biodata_SPinjam" Member="SPinjams" ThisKey="Id" OtherKey="IdUser" Type="SPinjam" />
-      <Association Name="Biodata_Pinjam" Member="Pinjams" ThisKey="Id" OtherKey="IdUser" Type="Pinjam" />
+      <Column Name="IdUser" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PBuku" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="[Confirm]" Member="Confirm" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="WPinjam" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="IdBuku" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="DBuku_Pinjam" Member="DBuku" ThisKey="IdBuku" OtherKey="Id" Type="DBuku" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="Biodata_Pinjam" Member="Biodata" ThisKey="IdUser" OtherKey="Id" Type="Biodata" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.SPinjam" Member="SPinjams">
@@ -69,20 +59,51 @@
       <Column Name="PBuku" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
       <Column Name="WKembali" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="IdBuku" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="Biodata_SPinjam" Member="Biodata" ThisKey="IdUser" OtherKey="Id" Type="Biodata" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Column Name="Status" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Association Name="DBuku_SPinjam" Member="DBuku" ThisKey="IdBuku" OtherKey="Id" Type="DBuku" IsForeignKey="true" DeleteRule="CASCADE" />
+      <Association Name="Biodata_SPinjam" Member="Biodata" ThisKey="IdUser" OtherKey="Id" Type="Biodata" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
-  <Table Name="dbo.Pinjam" Member="Pinjams">
-    <Type Name="Pinjam">
+  <Table Name="dbo.TBaca" Member="TBacas">
+    <Type Name="TBaca">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Buku" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="ReWaktu" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="IdUser" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="PBuku" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="[Confirm]" Member="Confirm" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="WPinjam" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="IdBuku" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="Biodata_Pinjam" Member="Biodata" ThisKey="IdUser" OtherKey="Id" Type="Biodata" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
-      <Association Name="DBuku_Pinjam" Member="DBuku" ThisKey="IdBuku" OtherKey="Id" Type="DBuku" IsForeignKey="true" DeleteRule="CASCADE" />
+      <Association Name="Biodata_TBaca" Member="Biodata" ThisKey="IdUser" OtherKey="Id" Type="Biodata" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Login" Member="Logins">
+    <Type Name="Login">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Stat" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Association Name="Login_Biodata" Member="Biodatas" ThisKey="Id" OtherKey="IdStat" Type="Biodata" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserLogin" Member="UserLogins">
+    <Type Name="UserLogin">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Username" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Biodata" Member="Biodatas">
+    <Type Name="Biodata">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Username" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Alamat" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Email" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Pass" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Makanan" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Film" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="WDaftar" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="IdStat" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="KTP" Type="System.String" DbType="NChar(30)" CanBeNull="true" />
+      <Column Name="Foto" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Association Name="Biodata_Dibaca" Member="Dibacas" ThisKey="Id" OtherKey="IdUser" Type="Dibaca" />
+      <Association Name="Biodata_Pinjam" Member="Pinjams" ThisKey="Id" OtherKey="IdUser" Type="Pinjam" />
+      <Association Name="Biodata_SPinjam" Member="SPinjams" ThisKey="Id" OtherKey="IdUser" Type="SPinjam" />
+      <Association Name="Biodata_TBaca" Member="TBacas" ThisKey="Id" OtherKey="IdUser" Type="TBaca" />
+      <Association Name="Login_Biodata" Member="Login" ThisKey="IdStat" OtherKey="Id" Type="Login" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
 </Database>

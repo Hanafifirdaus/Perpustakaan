@@ -15,20 +15,10 @@ namespace Perpustakaan.Controllers
         {
             context = new OperationDataContext();
         }
-        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
+        public ActionResult DaftarBuku(string sortOrder, string currentFilter, string searchString, int? page)
         {
-
-            List<AutenModel> aut = new List<AutenModel>();
-            var secret = from sec in context.Autens select new AutenModel { Username = sec.Username, AutSes = sec.AutSes, Id = sec.Id };
-            aut = secret.ToList();
-            var sessi = from se in aut where se.Id == aut.Count select new { se.Username, se.AutSes };
-            string a = "";
-            string b = "";
-            foreach (var open in sessi)
-            {
-                a = open.Username;
-                b = open.AutSes;
-            }
+            Session["Admin"] = "Root";
+            Session["User"] = 1;
 
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Judul" : "";
@@ -46,8 +36,6 @@ namespace Perpustakaan.Controllers
             }
 
             ViewBag.CurrentFilter = searchString;
-
-
             var query = from book in context.DBukus
                         join Kel in context.Kelompoks on book.IdBuku equals Kel.Id
                         select new DBukuModel
@@ -91,6 +79,8 @@ namespace Perpustakaan.Controllers
 
         public ActionResult Pinjam(int id)
         {
+            //int j = int.Parse(Session["User"].ToString());
+
             DBukuModel mode = context.DBukus.Where(model => model.Id == id).Select(model => new DBukuModel()
             {
                 Judul = model.Judul,
@@ -100,15 +90,17 @@ namespace Perpustakaan.Controllers
                 Jumlah = model.Jumlah,
                 IdBuku = (int)model.IdBuku,
                 Images = model.Images,
-                Id = model.Id
+                Id = model.Id,
             }).SingleOrDefault();
-            
+
+            int ka = (int)Session["KTP"];
+
 
             DateTime now = DateTime.Now;
             Pinjam p = new Pinjam()
             {
                 WPinjam = DateTime.Today,
-                IdUser = 4,
+                IdUser = (int)Session["KTP"],
                 PBuku = mode.Judul,
                 IdBuku = mode.Id
             };
@@ -116,7 +108,130 @@ namespace Perpustakaan.Controllers
             context.Pinjams.InsertOnSubmit(p);
             context.SubmitChanges();
 
-            return RedirectToAction("Index");
+            return RedirectToAction("DaftarBuku");
+        }
+
+        public ActionResult SignUp()
+        {
+
+            BiodataModel mode = new BiodataModel();
+            return View(mode);
+        }
+
+        [HttpPost]
+        public ActionResult SignUp(BiodataModel biodata, HttpPostedFileBase file)
+        {
+
+            if (ModelState.IsValid)
+            {
+
+                var SeachData = context.Biodatas.Where(x => x.Pass == biodata.Username).SingleOrDefault();
+                if (SeachData != null)
+                {
+                    ModelState.AddModelError(string.Empty, "Student Name already exists.");
+                    return View();
+                }
+            }
+
+            string imageUrl = "";
+            if (file != null)
+            {
+                string ImageName = System.IO.Path.GetFileName(file.FileName);
+                string physicalPath = Server.MapPath("~/Profil/" + ImageName);
+                file.SaveAs(physicalPath);
+
+                imageUrl = ImageName;
+            }
+
+            try
+            {
+                Biodata Bio = new Biodata()
+                {
+                    Username = biodata.Username,
+                    Alamat = biodata.Alamat,
+                    Email = biodata.Email,
+                    Pass = biodata.Pass,
+                    Makanan = biodata.Makanan,
+                    Film = biodata.Film,
+                    WDaftar = DateTime.Now,
+                    IdStat = 2,
+                    Foto = imageUrl,
+                    KTP = biodata.KTP
+                };
+
+                context.Biodatas.InsertOnSubmit(Bio);
+                context.SubmitChanges();
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+
+            
+        }
+
+        public ActionResult Profil(int Id)
+        {
+            List<TBacaModel> Baca = new List<TBacaModel>();
+            var querys = from Biodata in context.Biodatas
+                         join TBaca in context.TBacas on Biodata.Id equals TBaca.IdUser where TBaca.IdUser == Id
+                         select new TBacaModel
+                         {
+                             Id = TBaca.Id,
+                             User = Biodata.Username,
+                             Buku = TBaca.Buku,
+                             IdUser = TBaca.IdUser,
+                             ReWaktu = (DateTime)TBaca.ReWaktu
+                         };
+
+            List<BiodataModel> Bio = new List<BiodataModel>();
+            var query = from Biodata in context.Biodatas where Biodata.Id == Id
+                         select new BiodataModel
+                         {
+                             Id = Biodata.Id,
+                             Username = Biodata.Username,
+                             Alamat = Biodata.Alamat,
+                             Email = Biodata.Email,
+                             Pass = Biodata.Pass,
+                             WDaftar = (DateTime)Biodata.WDaftar,
+                             KTP = Biodata.KTP,
+                             Foto = Biodata.Foto
+                         };
+
+            var tupleModel = new Tuple<List<TBacaModel>, List<BiodataModel>>(querys.ToList(), query.ToList());
+            return View(tupleModel);
+        }
+
+        public ActionResult Index()
+        {
+            BiodataModel model = new BiodataModel();
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Index(BiodataModel login)
+        {
+            var query = from p in context.Biodatas
+                    where p.Username == login.Username
+                    && p.Pass == login.Pass
+                    select p;
+
+            if (query.Any())
+            {
+                string KTP = "";
+                int Id = 0;
+                foreach(var a in query)
+                {
+                    KTP = a.KTP;
+                    Id = a.Id;
+                }
+                Session["KTP"] = Id;
+                return RedirectToAction("Profil/"+Id);
+            }
+            else
+                return View("Index");
         }
 
         public ActionResult About()

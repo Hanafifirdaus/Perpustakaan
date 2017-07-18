@@ -1,0 +1,93 @@
+﻿@using Perpustakaan;
+@using Perpustakaan.Models;
+@model Tuple<List<TBacaModel>, List<BiodataModel>>
+
+@{
+    ViewBag.Title = "Profil";
+}
+<h2 style="text-align:center;">About</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <h2 style="text-align:center;">Profil</h2>
+        <br />
+        @foreach (BiodataModel Bio in Model.Item2)
+        {
+            <div class="col-md-6">
+                <div class="thumbnail">
+                    <img src="/Profil/@Bio.Foto" alt="Cinque Terre" style="width:100%">
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.DisplayFor(m => Bio.Username)
+                <div class="col-md-2">
+                    @Html.LabelFor(model => Bio.Username)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.DisplayFor(m => Bio.Alamat)
+                <div class="col-md-2">
+                    @Html.LabelFor(model => Bio.Alamat)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.DisplayFor(m => Bio.Email)
+                <div class="col-md-2">
+                    @Html.LabelFor(model => Bio.Email)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.DisplayFor(m => Bio.KTP)
+                <div class="col-md-2">
+                    @Html.LabelFor(model => Bio.KTP)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.DisplayFor(m => Bio.WDaftar)
+                <div class="col-md-2">
+                    @Html.LabelFor(model => Bio.WDaftar)
+                </div>
+            </div>
+        }
+     </div>
+    <div class="col-md-6">
+        <h2 style="text-align:center;">Koleksi Buku</h2>
+        <p>
+            @Html.ActionLink("Create New", "Create")
+        </p>
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.Label("User")
+                </th>
+                <th>
+                    @Html.Label("Buku")
+                </th>
+                <th>
+                    @Html.Label("Terakhir Dibaca")
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (TBacaModel item in Model.Item1)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.User)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Buku)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReWaktu)
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>
