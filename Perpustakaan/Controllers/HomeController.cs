@@ -17,9 +17,6 @@ namespace Perpustakaan.Controllers
         }
         public ActionResult DaftarBuku(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            Session["Admin"] = "Root";
-            Session["User"] = 1;
-
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Judul" : "";
             ViewBag.DateSortParm = sortOrder == "Pengarang" ? "Judul" : "Pengarang";
@@ -37,7 +34,7 @@ namespace Perpustakaan.Controllers
 
             ViewBag.CurrentFilter = searchString;
             var query = from book in context.DBukus
-                        join Kel in context.Kelompoks on book.IdBuku equals Kel.Id
+                        join Kel in context.Kelompoks on book.IdBuku equals Kel.Id 
                         select new DBukuModel
                         {
                             Id = book.Id,
@@ -74,7 +71,7 @@ namespace Perpustakaan.Controllers
             }
             int pageSize = 3;
             int pageNumber = (page ?? 1);
-            return View(query.ToPagedList(pageNumber, pageSize));
+            return View(query.OrderByDescending(s => s.Id).ToPagedList(pageNumber, pageSize));
         }
 
         public ActionResult Pinjam(int id)
@@ -168,8 +165,6 @@ namespace Perpustakaan.Controllers
             {
                 return View();
             }
-
-            
         }
 
         public ActionResult Profil(int Id)
@@ -240,23 +235,31 @@ namespace Perpustakaan.Controllers
             {
                 string KTP = "";
                 int Id = 0;
+                string Foto = "";
                 foreach(var a in query)
                 {
                     KTP = a.KTP;
                     Id = a.Id;
+                    Foto = a.Foto;
                 }
                 Session["KTP"] = Id;
+                Session["Foto"] = Foto;
                 return RedirectToAction("Profil/"+Id);
             }
             else
                 return View("Index");
         }
 
-        
+        public ActionResult Logout()
+        {
+            Session.Clear();
+            Session.Abandon();
+            return RedirectToAction("Index");
+        }
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "Books Librarry";
 
             return View();
         }

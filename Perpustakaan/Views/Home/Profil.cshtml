@@ -11,24 +11,8 @@
 
 <div class="row">
     <div class="col-md-6">
-
-@using (Html.BeginForm("Create", "Home", FormMethod.Get))
-{
-    <p>
-        Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
-        <input type="submit" value="Search" />
-    </p>
-}
-
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
-
         <h2 style="text-align:center;">Profil</h2>
-        <br />
+        <br /><br />
         @foreach (BiodataModel Bio in Model.Item2)
         {
             <div class="col-md-6">
@@ -67,16 +51,27 @@
             <div class="form-group">
                 @Html.DisplayFor(m => Bio.WDaftar)
                 <div class="col-md-2">
-                    @Html.LabelFor(model => Bio.WDaftar)
+                    @Html.Label("Registrasi")
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-4">
+                    @Html.ActionLink("Pinjam Buku", "DaftarBuku")
                 </div>
             </div>
         }
      </div>
     <div class="col-md-6">
         <h2 style="text-align:center;">Koleksi Buku</h2>
-        <p>
-            @Html.ActionLink("Create New", "Create")
-        </p>
+        
+        @using (Html.BeginForm("Create", "Home", FormMethod.Get))
+        {
+            <p style="text-align:right;">
+                @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+                <input type="submit" value="Add Book" />
+            </p>
+        }
         <table class="table">
             <tr>
                 <th>

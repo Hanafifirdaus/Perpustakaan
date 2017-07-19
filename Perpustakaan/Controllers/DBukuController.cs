@@ -28,12 +28,12 @@ namespace Perpustakaan.Controllers
         {
 
             List<AutenModel> aut = new List<AutenModel>();
-            var secret = from sec in context.Autens select new AutenModel { Username = sec.Username, AutSes = sec.AutSes, Id = sec.Id };
+            var secret = from sec in context.Autens select new AutenModel { Username = sec.Username, AutSes = sec.AutSes};
             aut = secret.ToList();
-            var sessi = from se in aut where se.Id == aut.Count select new { se.Username, se.AutSes };
+            int k = aut.Count();
             string a = "";
             string b = "";
-            foreach (var open in sessi)
+            foreach (var open in aut)
             {
                 a = open.Username;
                 b = open.AutSes;
@@ -101,18 +101,18 @@ namespace Perpustakaan.Controllers
             }
             int pageSize = 3;
             int pageNumber = (page ?? 1);
-            return View(query.ToPagedList(pageNumber, pageSize));
+            return View(query.OrderByDescending(s => s.Id).ToPagedList(pageNumber, pageSize));
         }
 
         public ActionResult Create()
         {
             List<AutenModel> aut = new List<AutenModel>();
-            var secret = from sec in context.Autens select new AutenModel { Username = sec.Username, AutSes = sec.AutSes, Id = sec.Id };
+            var secret = from sec in context.Autens select new AutenModel { Username = sec.Username, AutSes = sec.AutSes };
             aut = secret.ToList();
-            var sessi = from se in aut where se.Id == aut.Count select new { se.Username, se.AutSes };
+            int k = aut.Count();
             string a = "";
             string b = "";
-            foreach (var open in sessi)
+            foreach (var open in aut)
             {
                 a = open.Username;
                 b = open.AutSes;
@@ -142,22 +142,6 @@ namespace Perpustakaan.Controllers
         [HttpPost]
         public ActionResult Create(DBukuModel model, HttpPostedFileBase file)
         {
-            List<AutenModel> aut = new List<AutenModel>();
-            var secret = from sec in context.Autens select new AutenModel { Username = sec.Username, AutSes = sec.AutSes, Id = sec.Id };
-            aut = secret.ToList();
-            var sessi = from se in aut where se.Id == aut.Count select new { se.Username, se.AutSes };
-            string a = "";
-            string b = "";
-            foreach (var open in sessi)
-            {
-                a = open.Username;
-                b = open.AutSes;
-            }
-
-            if (Session[a] == null)
-            {
-                return RedirectToAction("Index");
-            }
 
             if (ModelState.IsValid)
             {
@@ -190,7 +174,7 @@ namespace Perpustakaan.Controllers
                 context.DBukus.InsertOnSubmit(buku);
                 context.SubmitChanges();
 
-                return RedirectToAction("SignIn");
+                return RedirectToAction("Index");
             }
             catch
             {
@@ -202,12 +186,12 @@ namespace Perpustakaan.Controllers
         public ActionResult Edit(int? id)
         {
             List<AutenModel> aut = new List<AutenModel>();
-            var secret = from sec in context.Autens select new AutenModel { Username = sec.Username, AutSes = sec.AutSes, Id = sec.Id };
+            var secret = from sec in context.Autens select new AutenModel { Username = sec.Username, AutSes = sec.AutSes };
             aut = secret.ToList();
-            var sessi = from se in aut where se.Id == aut.Count select new { se.Username, se.AutSes };
+            int k = aut.Count();
             string a = "";
             string b = "";
-            foreach (var open in sessi)
+            foreach (var open in aut)
             {
                 a = open.Username;
                 b = open.AutSes;
@@ -215,10 +199,10 @@ namespace Perpustakaan.Controllers
 
             if (Session[a] == null)
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("SignIn");
             }
 
-            if(id == null)
+            if (id == null)
             {
                 return HttpNotFound();
             }
@@ -263,7 +247,7 @@ namespace Perpustakaan.Controllers
                 buku.IdBuku = (int)model.IdBuku;
                 buku.Images = imageUrl;
                 buku.Id = model.Id;
-
+                 
                 context.SubmitChanges();
                 return RedirectToAction("Index");
             }
@@ -311,12 +295,12 @@ namespace Perpustakaan.Controllers
         public ActionResult Delete(int id)
         {
             List<AutenModel> aut = new List<AutenModel>();
-            var secret = from sec in context.Autens select new AutenModel { Username = sec.Username, AutSes = sec.AutSes, Id = sec.Id };
+            var secret = from sec in context.Autens select new AutenModel { Username = sec.Username, AutSes = sec.AutSes };
             aut = secret.ToList();
-            var sessi = from se in aut where se.Id == aut.Count select new { se.Username, se.AutSes };
+            int k = aut.Count();
             string a = "";
             string b = "";
-            foreach (var open in sessi)
+            foreach (var open in aut)
             {
                 a = open.Username;
                 b = open.AutSes;
@@ -364,12 +348,12 @@ namespace Perpustakaan.Controllers
         public ActionResult Confirm()
         {
             List<AutenModel> aut = new List<AutenModel>();
-            var secret = from sec in context.Autens select new AutenModel { Username = sec.Username, AutSes = sec.AutSes, Id = sec.Id };
+            var secret = from sec in context.Autens select new AutenModel { Username = sec.Username, AutSes = sec.AutSes };
             aut = secret.ToList();
-            var sessi = from se in aut where se.Id == aut.Count select new { se.Username, se.AutSes };
+            int k = aut.Count();
             string a = "";
             string b = "";
-            foreach (var open in sessi)
+            foreach (var open in aut)
             {
                 a = open.Username;
                 b = open.AutSes;
@@ -377,7 +361,7 @@ namespace Perpustakaan.Controllers
 
             if (Session[a] == null)
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("SignIn");
             }
 
             List<SPinjamModel> spinjams = new List<SPinjamModel>();

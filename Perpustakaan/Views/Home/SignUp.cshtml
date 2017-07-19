@@ -4,14 +4,13 @@
     ViewBag.Title = "SignUp";
 }
 
-<h2>SignUp</h2>
+<h2 style="text-align:center;">SignUp</h2>
 
 @using (Html.BeginForm("SignUp", "Home", FormMethod.Post, new { enctype = "multipart/form-data" })) 
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(false, "", new { @class = "text-danger" })
     <div class="form-horizontal">
-        <h4>BiodataModel</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
